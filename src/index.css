@@ -171,3 +171,43 @@ body {
   outline: none;
   border-color: #007bff;
 }
+
+.form-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--background-color, #f9f9f9);
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color, #333);
+}
+
+.form-container input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-container button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--primary-color, #007bff);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: var(--primary-hover-color, #0056b3);
+}

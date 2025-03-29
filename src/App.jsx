@@ -8,6 +8,9 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import ProfileDetail from './pages/ProfileDetail';
 import EditProfile from './pages/EditProfile';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Logout from './pages/Logout';
 import headshot1 from './assets/headshot1.png'; 
 import headshot2 from './assets/headshot2.png';
 import headshot3 from './assets/headshot3.png';
@@ -77,6 +80,9 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/profile/:id" element={<ProfileDetail profiles={profiles} theme={mode} />} />
           <Route path="/profile/:id/edit" element={<EditProfile profiles={profiles} setProfiles={setProfiles} theme={mode} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
