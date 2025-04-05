@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useReducer, useRef, useLayoutEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ModeContext } from './ModeContext';
 import Navbar from './components/Navbar';
@@ -21,11 +21,20 @@ import headshot7 from './assets/headshot7.png';
 import headshot8 from './assets/headshot8.png';
 import './index.css';
 
-const App = () => {
-  const { mode, toggleMode } = useContext(ModeContext); // Use ModeContext for theme management
+// Reducer for managing profiles state
+const profilesReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_PROFILES':
+      return { ...state, profiles: action.payload };
+    case 'ADD_PROFILE':
+      return { ...state, profiles: [...state.profiles, action.payload] };
+    default:
+      return state;
+  }
+};
 
-  // Initial static profiles
-  const initialProfiles = [
+const initialState = {
+  profiles: [
     { id: '1', name: 'Isabelle', role: 'Web Developer', image: headshot1 },
     { id: '2', name: 'Tom Nook', role: 'UI/UX Designer', image: headshot2 },
     { id: '3', name: 'KK Slider', role: 'Sound Designer', image: headshot3 },
@@ -34,18 +43,26 @@ const App = () => {
     { id: '6', name: 'Rover', role: 'Web Developer', image: headshot6 },
     { id: '7', name: 'Harriet', role: 'UI/UX Designer', image: headshot7 },
     { id: '8', name: 'Kappn', role: 'Illustrator', image: headshot8 },
-  ];
+  ],
+};
 
-  const [profiles, setProfiles] = useState(initialProfiles);
+const App = () => {
+  const { mode, toggleMode } = useContext(ModeContext); // Use ModeContext for theme management
+
+  // useReducer for managing profiles
+  const [state, dispatch] = useReducer(profilesReducer, initialState);
+  const { profiles } = state;
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
 
+  // Fetching profiles from API
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
         const response = await fetch('http://localhost:5001/api/profiles');
         const profilesData = await response.json();
-        setProfiles([...initialProfiles, ...profilesData]); // Combine API data with initial ones
+        dispatch({ type: 'SET_PROFILES', payload: [...initialState.profiles, ...profilesData] });
       } catch (error) {
         console.error('Error fetching profiles:', error);
       }
@@ -54,7 +71,7 @@ const App = () => {
   }, []);
 
   const addProfile = (profile) => {
-    setProfiles([...profiles, profile]);
+    dispatch({ type: 'ADD_PROFILE', payload: profile });
   };
 
   return (
